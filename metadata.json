@@ -1,0 +1,10 @@
+{
+  "name": "IDGuard AI",
+  "description": "AI-Assisted Identity & Document Screening with multimodal document forensics, MRZ consistency verification, 1:1 biometric face matching, and explainable risk fusion.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Plus } from "lucide-react";
+import { Plus, FileDown } from "lucide-react";
 import { Header } from "./components/Header";
 import { WorkflowProgress } from "./components/WorkflowProgress";
 import { CaptureStep } from "./components/CaptureStep";
@@ -11,6 +11,7 @@ import { WorkflowStage, ScreeningSession, OfficerDecision } from "./types";
 import { INTERNAL_TEST_SCENARIOS } from "./data/testScenarios";
 import { optimizeImage } from "./utils/imageOptimizer";
 import { executeDemoScreening } from "./utils/demoScreeningEngine";
+import { generateScreeningPdf } from "./utils/pdfGenerator";
 
 export default function App() {
   // Navigation & View State
@@ -303,6 +304,15 @@ export default function App() {
                   </div>
 
                   <div className="flex items-center space-x-2">
+                    <button
+                      id="inspecting-download-pdf-btn"
+                      onClick={() => generateScreeningPdf(currentSession)}
+                      className="text-xs font-semibold text-slate-300 hover:text-white px-3 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 rounded-lg transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+                      title="Download official PDF report for this screening"
+                    >
+                      <FileDown className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>Download PDF</span>
+                    </button>
                     <button
                       id="inspecting-new-screening-btn"
                       onClick={handleReset}

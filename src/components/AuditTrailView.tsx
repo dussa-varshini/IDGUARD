@@ -14,8 +14,10 @@ import {
   Calendar,
   Eye,
   Plus,
+  FileDown,
 } from "lucide-react";
 import { ScreeningSession } from "../types";
+import { generateScreeningPdf } from "../utils/pdfGenerator";
 
 interface AuditTrailViewProps {
   sessions: ScreeningSession[];
@@ -297,16 +299,28 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({
                     </td>
                     <td className="py-3 px-4">{getStatusBadge(session)}</td>
                     <td className="py-3 px-4 text-right">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onSelectSession(session);
-                        }}
-                        className="p-1 text-slate-400 hover:text-white rounded hover:bg-slate-700 transition-colors"
-                        title="View Full Inspection Details"
-                      >
-                        <ChevronRight className="w-4 h-4" />
-                      </button>
+                      <div className="flex items-center justify-end space-x-1">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            generateScreeningPdf(session);
+                          }}
+                          className="p-1.5 text-slate-400 hover:text-emerald-400 rounded hover:bg-slate-700/60 transition-colors"
+                          title="Download PDF Report"
+                        >
+                          <FileDown className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onSelectSession(session);
+                          }}
+                          className="p-1.5 text-slate-400 hover:text-white rounded hover:bg-slate-700 transition-colors"
+                          title="View Full Inspection Details"
+                        >
+                          <ChevronRight className="w-4 h-4" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

@@ -17,8 +17,10 @@ import {
   AlertOctagon,
   Sparkles,
   Plus,
+  FileDown,
 } from "lucide-react";
 import { ScreeningSession } from "../types";
+import { generateScreeningPdf } from "../utils/pdfGenerator";
 
 interface AnalysisOverviewProps {
   session: ScreeningSession;
@@ -149,6 +151,16 @@ export const AnalysisOverview: React.FC<AnalysisOverviewProps> = ({
                 <span>{decision ? "Update Decision" : "Record Officer Decision"}</span>
               </button>
             )}
+
+            <button
+              id="banner-download-pdf-btn"
+              onClick={() => generateScreeningPdf(session)}
+              className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 hover:border-slate-600 text-xs font-bold rounded-xl shadow-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
+              title="Download official government-grade PDF screening dossier"
+            >
+              <FileDown className="w-4 h-4 text-emerald-400" />
+              <span>Download PDF Report</span>
+            </button>
 
             <button
               id="banner-new-screening-btn"
@@ -603,6 +615,16 @@ export const AnalysisOverview: React.FC<AnalysisOverviewProps> = ({
               <span>Record Officer Decision</span>
             </button>
           )}
+
+          <button
+            id="bottom-download-pdf-btn"
+            onClick={() => generateScreeningPdf(session)}
+            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer"
+            title="Download official government-style PDF report"
+          >
+            <FileDown className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Download PDF Report</span>
+          </button>
 
           <button
             id="bottom-new-screening-btn"

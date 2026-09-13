@@ -130,6 +130,8 @@ export interface ScreeningSession {
   risk: ExplainableRiskFusion;
   decision?: OfficerDecision;
   processingTimeMs: number;
+  isDemoFallback?: boolean;
+  analysisSource?: 'GEMINI_AI' | 'CONTROLLED_DEMO_ENGINE';
 }
 
 export interface InternalTestScenario {

@@ -1,8 +1,14 @@
 import { InternalTestScenario } from "../types";
 
-// Helper to convert SVG strings into valid Data URLs
+// Helper to convert SVG strings into valid Base64 Data URLs
 function svgToDataUri(svgString: string): string {
-  return `data:image/svg+xml;utf8,${encodeURIComponent(svgString)}`;
+  if (typeof window !== "undefined" && typeof window.btoa === "function") {
+    return `data:image/svg+xml;base64,${window.btoa(unescape(encodeURIComponent(svgString)))}`;
+  }
+  if (typeof Buffer !== "undefined") {
+    return `data:image/svg+xml;base64,${Buffer.from(svgString).toString("base64")}`;
+  }
+  return `data:image/svg+xml;base64,${btoa(encodeURIComponent(svgString))}`;
 }
 
 // Generate realistic synthetic ID Document SVGs for internal testing

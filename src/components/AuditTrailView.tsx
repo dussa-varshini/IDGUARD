@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   Calendar,
   Eye,
+  Plus,
 } from "lucide-react";
 import { ScreeningSession } from "../types";
 
@@ -157,11 +158,12 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({
             Export CSV
           </button>
           <button
+            id="audit-new-screening-btn"
             onClick={onNewScreening}
-            className="px-4 py-1.5 bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow"
+            className="px-4 py-1.5 bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 shadow cursor-pointer"
           >
-            <ShieldCheck className="w-3.5 h-3.5" />
-            New Inspection
+            <Plus className="w-3.5 h-3.5" />
+            New Screening
           </button>
         </div>
       </div>
@@ -211,6 +213,16 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({
             <FileText className="w-10 h-10 mx-auto mb-2 opacity-40 text-slate-400" />
             <p className="text-sm font-medium text-slate-400">No screening records match your filter.</p>
             <p className="text-xs text-slate-500 mt-1">Execute an identity document screening to populate the audit log.</p>
+            <div className="mt-4">
+              <button
+                id="empty-new-screening-btn"
+                onClick={onNewScreening}
+                className="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold rounded-lg shadow-sm transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                Start New Screening
+              </button>
+            </div>
           </div>
         ) : (
           <div className="overflow-x-auto">

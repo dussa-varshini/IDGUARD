@@ -16,6 +16,7 @@ import {
   Maximize2,
   AlertOctagon,
   Sparkles,
+  Plus,
 } from "lucide-react";
 import { ScreeningSession } from "../types";
 
@@ -24,6 +25,7 @@ interface AnalysisOverviewProps {
   onOpenWhyThisResult: () => void;
   onOpenOfficerDecision: () => void;
   onRequestRecapture: () => void;
+  onNewScreening: () => void;
 }
 
 export const AnalysisOverview: React.FC<AnalysisOverviewProps> = ({
@@ -31,6 +33,7 @@ export const AnalysisOverview: React.FC<AnalysisOverviewProps> = ({
   onOpenWhyThisResult,
   onOpenOfficerDecision,
   onRequestRecapture,
+  onNewScreening,
 }) => {
   const { quality, ocr, mrz, forensics, face, risk, decision } = session;
 
@@ -146,6 +149,16 @@ export const AnalysisOverview: React.FC<AnalysisOverviewProps> = ({
                 <span>{decision ? "Update Decision" : "Record Officer Decision"}</span>
               </button>
             )}
+
+            <button
+              id="banner-new-screening-btn"
+              onClick={onNewScreening}
+              className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 hover:border-slate-600 text-xs font-bold rounded-xl shadow-sm transition-colors flex items-center justify-center gap-2"
+              title="Clear current evaluation and start a new screening"
+            >
+              <Plus className="w-4 h-4 text-sky-400" />
+              <span>New Screening</span>
+            </button>
           </div>
         </div>
 
@@ -558,6 +571,47 @@ export const AnalysisOverview: React.FC<AnalysisOverviewProps> = ({
               {new Date(session.timestamp).toLocaleTimeString()}
             </span>
           </div>
+        </div>
+      </div>
+
+      {/* Bottom Action Footer Bar */}
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+        <div className="flex items-center space-x-2 text-xs text-slate-400">
+          <span className="text-slate-300 font-medium">Screening Reference:</span>
+          <span className="font-mono text-sky-400 font-bold">{session.screeningId}</span>
+          <span className="text-slate-600">•</span>
+          <span>Inspection evaluation completed</span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto justify-end">
+          <button
+            id="bottom-why-this-result-btn"
+            onClick={onOpenWhyThisResult}
+            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5"
+          >
+            <HelpCircle className="w-3.5 h-3.5 text-sky-400" />
+            <span>Why This Result?</span>
+          </button>
+
+          {!isInsufficient && !decision && (
+            <button
+              id="bottom-record-decision-btn"
+              onClick={onOpenOfficerDecision}
+              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5"
+            >
+              <Gavel className="w-3.5 h-3.5 text-sky-400" />
+              <span>Record Officer Decision</span>
+            </button>
+          )}
+
+          <button
+            id="bottom-new-screening-btn"
+            onClick={onNewScreening}
+            className="px-5 py-2 bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold rounded-lg shadow transition-colors flex items-center gap-1.5 cursor-pointer"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Start New Screening</span>
+          </button>
         </div>
       </div>
     </div>

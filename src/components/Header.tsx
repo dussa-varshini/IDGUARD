@@ -1,5 +1,5 @@
 import React from "react";
-import { Shield, Sparkles, RefreshCw, FileText, CheckCircle2, AlertTriangle, Layers } from "lucide-react";
+import { Shield, Sparkles, Plus, FileText, CheckCircle2, AlertTriangle, Layers } from "lucide-react";
 import { INTERNAL_TEST_SCENARIOS } from "../data/testScenarios";
 
 interface HeaderProps {
@@ -69,7 +69,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Right Navigation & Operational Controls */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2.5">
             <button
               id="view-toggle-screening-btn"
               onClick={() => onToggleView("screening")}
@@ -104,11 +104,11 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               id="new-screening-reset-btn"
               onClick={onReset}
-              title="Reset current screening session"
-              className="px-2.5 py-1.5 text-xs text-slate-400 hover:text-white hover:bg-slate-800 rounded-md transition-colors flex items-center gap-1"
+              title="Start a new identity screening session"
+              className="px-3 py-1.5 text-xs font-semibold bg-sky-600 hover:bg-sky-500 text-white rounded-md shadow-sm transition-all flex items-center gap-1.5 border border-sky-400/40 hover:border-sky-300 cursor-pointer"
             >
-              <RefreshCw className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">New Screening</span>
+              <Plus className="w-3.5 h-3.5" />
+              <span>New Screening</span>
             </button>
           </div>
         </div>

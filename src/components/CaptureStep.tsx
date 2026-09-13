@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   Zap,
   Info,
+  Trash2,
 } from "lucide-react";
 import { CameraCaptureModal } from "./CameraCaptureModal";
 import { INTERNAL_TEST_SCENARIOS } from "../data/testScenarios";
@@ -24,6 +25,7 @@ interface CaptureStepProps {
   onToggleConsent: (val: boolean) => void;
   onRunScreening: () => void;
   onLoadScenario: (scenarioId: string) => void;
+  onReset?: () => void;
   isAnalyzing: boolean;
 }
 
@@ -36,6 +38,7 @@ export const CaptureStep: React.FC<CaptureStepProps> = ({
   onToggleConsent,
   onRunScreening,
   onLoadScenario,
+  onReset,
   isAnalyzing,
 }) => {
   const [cameraModalMode, setCameraModalMode] = useState<"document" | "face" | null>(null);
@@ -75,8 +78,8 @@ export const CaptureStep: React.FC<CaptureStepProps> = ({
             </p>
           </div>
 
-          {/* Quick test scenarios helper */}
-          <div className="flex items-center space-x-2">
+          {/* Quick test scenarios helper & Reset */}
+          <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs text-slate-400 font-medium whitespace-nowrap">Load Preset:</span>
             <select
               id="quick-scenario-dropdown"
@@ -98,6 +101,18 @@ export const CaptureStep: React.FC<CaptureStepProps> = ({
                 </option>
               ))}
             </select>
+
+            {onReset && (documentImage || selfieImage) && (
+              <button
+                id="capture-clear-all-btn"
+                onClick={onReset}
+                className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium rounded-lg border border-slate-700 transition-colors flex items-center gap-1"
+                title="Clear current inputs and start fresh"
+              >
+                <RefreshCw className="w-3 h-3" />
+                <span>Clear All</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -163,6 +178,14 @@ export const CaptureStep: React.FC<CaptureStepProps> = ({
                   >
                     <Upload className="w-3.5 h-3.5" /> Upload File
                   </button>
+                  <button
+                    id="doc-remove-btn"
+                    onClick={() => onSetDocumentImage(null)}
+                    className="px-3 py-1.5 bg-rose-950/80 hover:bg-rose-900 text-rose-200 text-xs font-semibold rounded-lg shadow flex items-center gap-1.5 transition-colors border border-rose-800/60"
+                    title="Remove document image"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" /> Remove
+                  </button>
                 </div>
               </div>
             ) : (
@@ -204,6 +227,7 @@ export const CaptureStep: React.FC<CaptureStepProps> = ({
               className="hidden"
               onChange={(e) => {
                 if (e.target.files?.[0]) handleFile(e.target.files[0], "document");
+                e.target.value = "";
               }}
             />
           </div>
@@ -268,6 +292,14 @@ export const CaptureStep: React.FC<CaptureStepProps> = ({
                   >
                     <Upload className="w-3 h-3" /> Replace
                   </button>
+                  <button
+                    id="selfie-remove-btn"
+                    onClick={() => onSetSelfieImage(null)}
+                    className="px-3 py-1 bg-rose-950/80 hover:bg-rose-900 text-rose-200 text-xs font-semibold rounded-md shadow flex items-center gap-1 transition-colors border border-rose-800/60"
+                    title="Remove selfie image"
+                  >
+                    <Trash2 className="w-3 h-3" /> Remove
+                  </button>
                 </div>
               </div>
             ) : (
@@ -309,6 +341,7 @@ export const CaptureStep: React.FC<CaptureStepProps> = ({
               className="hidden"
               onChange={(e) => {
                 if (e.target.files?.[0]) handleFile(e.target.files[0], "face");
+                e.target.value = "";
               }}
             />
 

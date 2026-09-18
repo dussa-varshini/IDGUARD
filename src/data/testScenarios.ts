@@ -12,84 +12,6 @@ function svgToDataUri(svgString: string): string {
 }
 
 // Generate realistic synthetic ID Document SVGs for internal testing
-const validPassportSvg = `
-<svg width="600" height="420" viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-  <defs>
-    <pattern id="guilloche" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M0,20 Q10,0 20,20 T40,20" fill="none" stroke="#dbeafe" stroke-width="0.75" opacity="0.6"/>
-      <path d="M0,20 Q10,40 20,20 T40,20" fill="none" stroke="#bfdbfe" stroke-width="0.75" opacity="0.6"/>
-    </pattern>
-    <linearGradient id="passportBg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#f8fafc"/>
-      <stop offset="100%" stop-color="#eff6ff"/>
-    </linearGradient>
-  </defs>
-
-  <!-- Document Card Outer -->
-  <rect x="10" y="10" width="580" height="400" rx="14" fill="url(#passportBg)" stroke="#94a3b8" stroke-width="2"/>
-  <rect x="15" y="15" width="570" height="390" rx="10" fill="url(#guilloche)"/>
-
-  <!-- Top Header Bar -->
-  <rect x="10" y="10" width="580" height="46" rx="14" fill="#1e293b"/>
-  <text x="30" y="38" fill="#ffffff" font-size="15" font-weight="700" letter-spacing="1">UTOPIA • PASSPORT / PASSEPORT</text>
-  <text x="540" y="38" fill="#38bdf8" font-size="13" font-weight="600">P &lt; UTO</text>
-
-  <!-- Photo Box -->
-  <g transform="translate(35, 75)">
-    <rect width="130" height="170" rx="6" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="1.5"/>
-    <!-- Simulated Portrait Face -->
-    <circle cx="65" cy="65" r="34" fill="#fcd34d"/>
-    <path d="M35 155 C35 110, 95 110, 95 155 Z" fill="#334155"/>
-    <circle cx="54" cy="62" r="4" fill="#1e293b"/>
-    <circle cx="76" cy="62" r="4" fill="#1e293b"/>
-    <path d="M58 80 Q65 86 72 80" stroke="#b45309" stroke-width="2" fill="none"/>
-    <!-- Holographic security crest over photo corner -->
-    <circle cx="110" cy="150" r="16" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3 3"/>
-    <text x="65" y="166" font-size="9" text-anchor="middle" fill="#64748b" font-weight="600">ICAO BIO-PORTRAIT</text>
-  </g>
-
-  <!-- VIZ Visual Inspection Fields -->
-  <g transform="translate(185, 75)" font-size="11" fill="#475569">
-    <text x="0" y="12" font-weight="600" font-size="9" fill="#64748b">TYPE / TYPE</text>
-    <text x="0" y="27" font-weight="700" font-size="13" fill="#0f172a">P</text>
-
-    <text x="60" y="12" font-weight="600" font-size="9" fill="#64748b">COUNTRY CODE</text>
-    <text x="60" y="27" font-weight="700" font-size="13" fill="#0f172a">UTO</text>
-
-    <text x="170" y="12" font-weight="600" font-size="9" fill="#64748b">PASSPORT NO. / NO DU PASSEPORT</text>
-    <text x="170" y="27" font-weight="800" font-size="14" fill="#0369a1" letter-spacing="1">P12849021</text>
-
-    <text x="0" y="55" font-weight="600" font-size="9" fill="#64748b">SURNAME / NOM</text>
-    <text x="0" y="70" font-weight="700" font-size="13" fill="#0f172a">VASQUEZ</text>
-
-    <text x="0" y="95" font-weight="600" font-size="9" fill="#64748b">GIVEN NAMES / PRENOMS</text>
-    <text x="0" y="110" font-weight="700" font-size="13" fill="#0f172a">ELENA SOFIA</text>
-
-    <text x="0" y="135" font-weight="600" font-size="9" fill="#64748b">NATIONALITY / NATIONALITE</text>
-    <text x="0" y="150" font-weight="700" font-size="12" fill="#0f172a">UTOPIAN</text>
-
-    <text x="170" y="135" font-weight="600" font-size="9" fill="#64748b">DATE OF BIRTH / DATE DE NAISSANCE</text>
-    <text x="170" y="150" font-weight="700" font-size="12" fill="#0f172a">22 AUG / AOU 1990</text>
-
-    <text x="0" y="175" font-weight="600" font-size="9" fill="#64748b">SEX / SEXE</text>
-    <text x="0" y="190" font-weight="700" font-size="12" fill="#0f172a">F</text>
-
-    <text x="60" y="175" font-weight="600" font-size="9" fill="#64748b">DATE OF ISSUE</text>
-    <text x="60" y="190" font-weight="700" font-size="12" fill="#0f172a">15 MAR 2021</text>
-
-    <text x="170" y="175" font-weight="600" font-size="9" fill="#64748b">DATE OF EXPIRY / EXPIRATION</text>
-    <text x="170" y="190" font-weight="800" font-size="13" fill="#059669">14 MAR 2031</text>
-  </g>
-
-  <!-- MRZ Machine Readable Zone Section -->
-  <rect x="25" y="315" width="550" height="78" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
-  <g transform="translate(40, 345)" font-family="Courier, monospace" font-size="17" font-weight="700" letter-spacing="3" fill="#0f172a">
-    <text x="0" y="0">P&lt;UTOVASQUEZ&lt;&lt;ELENA&lt;SOFIA&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</text>
-    <text x="0" y="28">P128490218UTO9008226F3103142&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;06</text>
-  </g>
-</svg>
-`;
-
 const mrzDiscrepancySvg = `
 <svg width="600" height="420" viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
   <defs>
@@ -292,12 +214,12 @@ const matchingSelfieSvg = `
   <rect width="400" height="400" fill="#0f172a"/>
   <!-- Target framing circle -->
   <circle cx="200" cy="200" r="160" fill="none" stroke="#22c55e" stroke-width="2" stroke-dasharray="6 6"/>
-  <!-- Live Portrait Face matching Elena Sofia -->
-  <circle cx="200" cy="180" r="80" fill="#fcd34d"/>
-  <path d="M120 380 C120 280, 280 280, 280 380 Z" fill="#334155"/>
+  <!-- Live Portrait Face -->
+  <circle cx="200" cy="180" r="80" fill="#fed7aa"/>
+  <path d="M120 380 C120 280, 280 280, 280 380 Z" fill="#475569"/>
   <circle cx="175" cy="175" r="9" fill="#0f172a"/>
   <circle cx="225" cy="175" r="9" fill="#0f172a"/>
-  <path d="M185 220 Q200 232 215 220" stroke="#b45309" stroke-width="3" fill="none"/>
+  <path d="M185 220 Q200 232 215 220" stroke="#7c2d12" stroke-width="3" fill="none"/>
   <text x="200" y="370" font-family="-apple-system, sans-serif" font-size="12" fill="#22c55e" text-anchor="middle" font-weight="600">LIVE BIOMETRIC FEED • VERIFIED CONSENT</text>
 </svg>
 `;
@@ -318,18 +240,8 @@ const mismatchedSelfieSvg = `
 
 export const INTERNAL_TEST_SCENARIOS: InternalTestScenario[] = [
   {
-    id: "scenario-valid-passport",
-    name: "Scenario 1: Standard Valid Passport",
-    category: "Baseline Compliance",
-    description: "Full compliance, high optical resolution, authentic ICAO Doc 9303 MRZ check digits, and live 1:1 facial biometric match.",
-    expectedOutcome: "PASS",
-    documentImage: svgToDataUri(validPassportSvg),
-    selfieImage: svgToDataUri(matchingSelfieSvg),
-    expectedSummary: "Document valid, security features intact, zero discrepancy, facial biometric match 96%.",
-  },
-  {
     id: "scenario-mrz-discrepancy",
-    name: "Scenario 2: MRZ Expiry Discrepancy",
+    name: "Scenario 1: MRZ Expiry Discrepancy",
     category: "Cross-Field Integrity",
     description: "Visual inspection zone shows expiry year 2030, but optical MRZ Line 2 encodes 2028 with check digit. Demonstrates cross-check integrity.",
     expectedOutcome: "FLAG_MRZ",
@@ -339,7 +251,7 @@ export const INTERNAL_TEST_SCENARIOS: InternalTestScenario[] = [
   },
   {
     id: "scenario-digital-tampering",
-    name: "Scenario 3: Forensic Font Alteration & Splicing",
+    name: "Scenario 2: Forensic Font Alteration & Splicing",
     category: "Document Forensics",
     description: "National ID with font baseline irregularity on Date of Birth and compression haloing around the photo border.",
     expectedOutcome: "FLAG_TAMPER",
@@ -348,7 +260,7 @@ export const INTERNAL_TEST_SCENARIOS: InternalTestScenario[] = [
   },
   {
     id: "scenario-insufficient-evidence",
-    name: "Scenario 4: Specular Glare & Defocus Blur",
+    name: "Scenario 3: Specular Glare & Defocus Blur",
     category: "Image Quality Assurance",
     description: "Severe flash hotspot obscuring identification numbers and Laplacian blur exceeding threshold. Demonstrates non-negotiable recapture logic.",
     expectedOutcome: "RECAPTURE",
@@ -357,7 +269,7 @@ export const INTERNAL_TEST_SCENARIOS: InternalTestScenario[] = [
   },
   {
     id: "scenario-face-mismatch",
-    name: "Scenario 5: 1:1 Biometric Face Mismatch",
+    name: "Scenario 4: 1:1 Biometric Face Mismatch",
     category: "Biometric Verification",
     description: "Genuine authentic National ID card presented by an applicant whose live facial landmarks do not match (24% similarity score).",
     expectedOutcome: "FACE_MISMATCH",
@@ -367,7 +279,7 @@ export const INTERNAL_TEST_SCENARIOS: InternalTestScenario[] = [
   },
   {
     id: "scenario-expired-document",
-    name: "Scenario 6: Expired Credential Check",
+    name: "Scenario 5: Expired Credential Check",
     category: "Validity Lifecycle",
     description: "Passport document with valid structure and authentic features, but expiration date has passed.",
     expectedOutcome: "EXPIRED",

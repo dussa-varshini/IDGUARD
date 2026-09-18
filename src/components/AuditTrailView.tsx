@@ -15,6 +15,7 @@ import {
   Eye,
   Plus,
   FileDown,
+  Trash2,
 } from "lucide-react";
 import { ScreeningSession } from "../types";
 import { generateScreeningPdf } from "../utils/pdfGenerator";
@@ -23,12 +24,14 @@ interface AuditTrailViewProps {
   sessions: ScreeningSession[];
   onSelectSession: (session: ScreeningSession) => void;
   onNewScreening: () => void;
+  onPurgeAllHistory?: () => void;
 }
 
 export const AuditTrailView: React.FC<AuditTrailViewProps> = ({
   sessions,
   onSelectSession,
   onNewScreening,
+  onPurgeAllHistory,
 }) => {
   const [filter, setFilter] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState("");
@@ -151,6 +154,16 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({
         </div>
 
         <div className="flex items-center space-x-2.5">
+          {sessions.length > 0 && onPurgeAllHistory && (
+            <button
+              onClick={onPurgeAllHistory}
+              title="Permanently delete all stored trial records, preview data, and uploaded images"
+              className="px-3.5 py-1.5 bg-slate-800 hover:bg-rose-950/40 text-slate-300 hover:text-rose-300 text-xs font-semibold rounded-lg border border-slate-700 hover:border-rose-700/50 transition-colors flex items-center gap-1.5 cursor-pointer"
+            >
+              <Trash2 className="w-3.5 h-3.5 text-rose-400" />
+              Clear All Records
+            </button>
+          )}
           <button
             onClick={exportAuditCsv}
             disabled={sessions.length === 0}

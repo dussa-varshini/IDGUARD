@@ -555,11 +555,17 @@ export const AnalysisOverview: React.FC<AnalysisOverviewProps> = ({
             <div className="flex flex-col items-center">
               <span className="text-[10px] text-slate-400 font-semibold mb-1">DOCUMENT ID</span>
               <div className="w-28 h-20 rounded bg-slate-950 border border-slate-800 overflow-hidden flex items-center justify-center">
-                <img
-                  src={session.documentImage}
-                  alt="Document"
-                  className="w-full h-full object-contain"
-                />
+                {session.documentImage ? (
+                  <img
+                    src={session.documentImage}
+                    alt="Document"
+                    className="w-full h-full object-contain"
+                  />
+                ) : (
+                  <span className="text-[10px] text-slate-500 italic text-center px-1">
+                    Image Not Stored
+                  </span>
+                )}
               </div>
             </div>
 

@@ -28,11 +28,16 @@ export default function App() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [currentSession, setCurrentSession] = useState<ScreeningSession | null>(null);
   const [auditSessions, setAuditSessions] = useState<ScreeningSession[]>(() => {
+    // Immediate purge of all previous trial uploads, cached images, and personal data
     try {
-      const saved = localStorage.getItem("idguard_audit_trail");
-      if (saved) return JSON.parse(saved);
+      if (typeof window !== "undefined") {
+        window.localStorage.removeItem("idguard_audit_trail");
+        window.localStorage.removeItem("idguard_recent_sessions");
+        window.localStorage.clear();
+        window.sessionStorage?.clear();
+      }
     } catch (e) {
-      console.warn("Could not parse saved audit trail:", e);
+      console.warn("Storage purge:", e);
     }
     return [];
   });
@@ -41,10 +46,34 @@ export default function App() {
   const [whyModalOpen, setWhyModalOpen] = useState(false);
   const [decisionModalOpen, setDecisionModalOpen] = useState(false);
 
-  // Sync audit sessions to local storage
+  // Immediate purge on component mount to guarantee no trial data/images remain
   useEffect(() => {
     try {
-      localStorage.setItem("idguard_audit_trail", JSON.stringify(auditSessions));
+      if (typeof window !== "undefined") {
+        window.localStorage.removeItem("idguard_audit_trail");
+        window.localStorage.removeItem("idguard_recent_sessions");
+        window.localStorage.clear();
+        window.sessionStorage?.clear();
+      }
+    } catch (e) {
+      console.warn("Storage purge on mount:", e);
+    }
+  }, []);
+
+  // Sync audit sessions to local storage without retaining raw user uploaded images
+  useEffect(() => {
+    try {
+      if (auditSessions.length === 0) {
+        localStorage.removeItem("idguard_audit_trail");
+        return;
+      }
+      // Privacy safeguard: Never retain user-uploaded document or selfie images in persistent storage
+      const sanitized = auditSessions.map((s) => ({
+        ...s,
+        documentImage: s.scenarioId ? s.documentImage : "",
+        selfieImage: s.scenarioId ? s.selfieImage : undefined,
+      }));
+      localStorage.setItem("idguard_audit_trail", JSON.stringify(sanitized));
     } catch (e) {
       console.warn("Failed to persist audit trail:", e);
     }
@@ -170,6 +199,30 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // Permanently purge all trial records, preview data, and uploaded user images
+  const handlePurgeAllData = () => {
+    setDocumentImage(null);
+    setSelfieImage(null);
+    setActiveScenarioId(null);
+    setCurrentSession(null);
+    setAuditSessions([]);
+    try {
+      if (typeof window !== "undefined") {
+        window.localStorage.removeItem("idguard_audit_trail");
+        window.localStorage.removeItem("idguard_recent_sessions");
+        window.localStorage.clear();
+        window.sessionStorage?.clear();
+      }
+    } catch (e) {
+      console.warn("Storage purge error:", e);
+    }
+    setCurrentStage("CAPTURE");
+    setActiveView("screening");
+    setWhyModalOpen(false);
+    setDecisionModalOpen(false);
+    setIsAnalyzing(false);
+  };
+
   // Request Recapture
   const handleRequestRecapture = () => {
     setDocumentImage(null);
@@ -272,6 +325,7 @@ export default function App() {
             sessions={auditSessions}
             onSelectSession={handleSelectAuditSession}
             onNewScreening={handleReset}
+            onPurgeAllHistory={handlePurgeAllData}
           />
         ) : (
           <div className="space-y-6">
